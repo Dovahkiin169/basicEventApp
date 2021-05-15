@@ -1,4 +1,4 @@
-package com.omens.basiceventapp.ui.notifications
+package com.omens.basiceventapp.ui.schedule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.omens.basiceventapp.R
-import com.omens.basiceventapp.databinding.FragmentNotificationsBinding
+import com.omens.basiceventapp.databinding.FragmentScheduleBinding
 
-class NotificationsFragment : Fragment() {
+class ScheduleFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private var _binding: FragmentNotificationsBinding? = null
+    private lateinit var scheduleViewModel: ScheduleViewModel
+    private var _binding: FragmentScheduleBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,14 +24,14 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        scheduleViewModel =
+            ViewModelProvider(this).get(ScheduleViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentScheduleBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        val textView: TextView = binding.textDashboard
+        scheduleViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
