@@ -5,26 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.omens.basiceventapp.OnFragmentInteractionListener
+import com.omens.basiceventapp.utils.RecyclerViewAdapter
+import com.omens.basiceventapp.utils.OnFragmentInteractionListener
 import com.omens.basiceventapp.databinding.FragmentEventsBinding
-import com.omens.basiceventapp.model.EventItem
-import com.omens.basiceventapp.service.EventsService
-import com.omens.basiceventapp.service.ServiceBuilder
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import com.omens.basiceventapp.utils.loadData
 import java.util.*
 
 class EventFragment : Fragment() {
 
-    private lateinit var adapter: EventRecyclerViewAdapter
+    private lateinit var adapter: RecyclerViewAdapter
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var eventViewModel: EventViewModel
     private var _binding: FragmentEventsBinding? = null
@@ -44,14 +37,15 @@ class EventFragment : Fragment() {
         _binding = FragmentEventsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        adapter = EventRecyclerViewAdapter(listener!!)
+        adapter = RecyclerViewAdapter(listener!!)
+        adapter.isClickable = true
         eventRecyclerView = binding.eventsList
         with(eventRecyclerView as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = this@EventFragment.adapter
         }
 
-        loadEvents()
+        loadData(true,requireContext(),adapter)
         return root
     }
 
@@ -60,27 +54,6 @@ class EventFragment : Fragment() {
         _binding = null
     }
 
-
-    private fun loadEvents() {
-        val destinationService = ServiceBuilder.buildService(EventsService::class.java)
-        val requestCall = destinationService.getEvents()
-        requestCall.enqueue(object : Callback<MutableList<EventItem>> {
-            override fun onResponse(call: Call<MutableList<EventItem>>, response: Response<MutableList<EventItem>>) {
-                if (response.isSuccessful){
-                    val eventsList  = response.body()!!
-                    val format: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH)
-                    val sortedList = eventsList.sortedBy { format.parse(it.date!!) }
-
-                    adapter.reloadList(sortedList)
-                }else{
-                    Toast.makeText(context, "Something went wrong ${response.message()}", Toast.LENGTH_SHORT).show()
-                }
-            }
-            override fun onFailure(call: Call<MutableList<EventItem>>, t: Throwable) {
-                Toast.makeText(context, "Something went wrong $t", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

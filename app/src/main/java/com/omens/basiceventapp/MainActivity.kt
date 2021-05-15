@@ -8,8 +8,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.omens.basiceventapp.databinding.ActivityMainBinding
+import com.omens.basiceventapp.utils.OnFragmentInteractionListener
 
-class MainActivity : AppCompatActivity(), OnFragmentInteractionListener  {
+class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
     private lateinit var binding: ActivityMainBinding
 

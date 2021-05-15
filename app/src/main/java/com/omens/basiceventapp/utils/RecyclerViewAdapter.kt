@@ -1,4 +1,4 @@
-package com.omens.basiceventapp.ui.event
+package com.omens.basiceventapp.utils
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,27 +6,28 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.omens.basiceventapp.OnFragmentInteractionListener
 import com.omens.basiceventapp.R
-import com.omens.basiceventapp.model.EventItem
+import com.omens.basiceventapp.model.RetrievedItem
 import com.squareup.picasso.Picasso
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class EventRecyclerViewAdapter(
+class RecyclerViewAdapter(
     private val mListener: OnFragmentInteractionListener
-) : RecyclerView.Adapter<EventRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
+    var isClickable = true
     private val mOnClickListener: View.OnClickListener
-    private var values: List<EventItem> = listOf()
+    private var values: List<RetrievedItem> = listOf()
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as EventItem
+            val item = v.tag as RetrievedItem
            // viewModel.placeholderItem = item
-            mListener.onListItemSelect()
+            if(isClickable)
+                mListener.onListItemSelect()
         }
     }
 
@@ -60,7 +61,7 @@ class EventRecyclerViewAdapter(
             return "ViewHolder(mView=$mView, title=$titleTextView, subtitle=$subtitleTextView, date=$dateTextView"
         }
 
-        fun updateView(item: EventItem){
+        fun updateView(item: RetrievedItem){
             Picasso.get().load(item.imageUrl).into(imagePreview)
             titleTextView.text = item.title
             subtitleTextView.text = item.subtitle
@@ -69,7 +70,7 @@ class EventRecyclerViewAdapter(
     }
 
 
-    fun reloadList(items: List<EventItem>) {
+    fun reloadList(items: List<RetrievedItem>) {
         values = items
         notifyDataSetChanged()
     }
@@ -77,10 +78,10 @@ class EventRecyclerViewAdapter(
 
 
     object DateUtil {
-        private fun yesterdayCheck(date: Date): Date {
+        private fun dayCheck(date: Date, days: Int): Date {
             val cal = Calendar.getInstance()
             cal.time = date
-            cal.add(Calendar.DATE, -1)
+            cal.add(Calendar.DATE, days)
             return cal.time
         }
         fun similarToMockDate(dateFromItem: String): String {
@@ -100,7 +101,9 @@ class EventRecyclerViewAdapter(
 
             return when (date) {
                 currentDate -> "Today, $hoursAndMinutes"
-                toDate.format(yesterdayCheck(calFromItem.time)) -> "Yesterday, $hoursAndMinutes"
+                toDate.format(dayCheck(calCurrent.time,-1)) -> "Yesterday, $hoursAndMinutes"
+                toDate.format(dayCheck(calCurrent.time,+1)) -> "Tomorrow, $hoursAndMinutes"
+                toDate.format(dayCheck(calCurrent.time,+2)) -> "In two days, $hoursAndMinutes"
                 else -> "$date, $hoursAndMinutes"
             }
         }
