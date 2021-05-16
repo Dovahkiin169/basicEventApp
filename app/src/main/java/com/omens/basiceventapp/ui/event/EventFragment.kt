@@ -5,14 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.omens.basiceventapp.MainActivity
+import com.omens.basiceventapp.R
 import com.omens.basiceventapp.utils.RecyclerViewAdapter
 import com.omens.basiceventapp.utils.OnFragmentInteractionListener
 import com.omens.basiceventapp.databinding.FragmentEventsBinding
 import com.omens.basiceventapp.utils.loadData
+import com.omens.basiceventapp.utils.showProgressBar
 import java.util.*
 
 class EventFragment : Fragment() {
@@ -22,22 +27,23 @@ class EventFragment : Fragment() {
     private lateinit var eventViewModel: EventViewModel
     private var _binding: FragmentEventsBinding? = null
     private var eventRecyclerView: RecyclerView? = null
+    private val viewModel: EventViewModel by activityViewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var progressBar: ProgressBar
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         eventViewModel = ViewModelProvider(this).get(EventViewModel::class.java)
 
         _binding = FragmentEventsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        adapter = RecyclerViewAdapter(listener!!)
+        adapter = RecyclerViewAdapter(listener!!,viewModel)
         adapter.isClickable = true
         eventRecyclerView = binding.eventsList
         with(eventRecyclerView as RecyclerView) {
@@ -45,7 +51,8 @@ class EventFragment : Fragment() {
             adapter = this@EventFragment.adapter
         }
 
-        loadData(true,requireContext(),adapter)
+        progressBar = requireActivity().findViewById(R.id.mainProgressBar)
+        loadData(true,requireContext(),adapter,progressBar)
         return root
     }
 

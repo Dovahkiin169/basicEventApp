@@ -1,13 +1,10 @@
 package com.omens.basiceventapp.ui.event
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.omens.basiceventapp.model.RetrievedItem
 
 class EventViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is event Fragment"
-    }
-    val text: LiveData<String> = _text
+    lateinit var retrievedItem: RetrievedItem
+    var mutableLiveData: MutableLiveData<MutableList<RetrievedItem>> = MutableLiveData()
 }

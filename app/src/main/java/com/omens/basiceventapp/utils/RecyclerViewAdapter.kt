@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.omens.basiceventapp.R
 import com.omens.basiceventapp.model.RetrievedItem
+import com.omens.basiceventapp.ui.event.EventViewModel
 import com.squareup.picasso.Picasso
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -15,7 +17,8 @@ import java.util.*
 
 
 class RecyclerViewAdapter(
-    private val mListener: OnFragmentInteractionListener
+    private val mListener: OnFragmentInteractionListener,
+    private val viewModel: ViewModel
 ) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
 
     var isClickable = true
@@ -25,7 +28,8 @@ class RecyclerViewAdapter(
     init {
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as RetrievedItem
-           // viewModel.placeholderItem = item
+            viewModel as EventViewModel
+            viewModel.retrievedItem = item
             if(isClickable)
                 mListener.onListItemSelect()
         }
@@ -75,6 +79,9 @@ class RecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
+    fun returnList():MutableList<RetrievedItem> {
+        return values.toMutableList()
+    }
 
 
     object DateUtil {

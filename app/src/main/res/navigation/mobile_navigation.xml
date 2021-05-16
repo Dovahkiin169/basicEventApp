@@ -3,17 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/eventsFragments">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/eventsFragments"
         android:name="com.omens.basiceventapp.ui.event.EventFragment"
         android:label="@string/title_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_playbackFragment"
+            app:destination="@id/playbackFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/scheduleFragment"
         android:name="com.omens.basiceventapp.ui.schedule.ScheduleFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/playbackFragment"
+        android:name="com.omens.basiceventapp.ui.playback.PlaybackFragment"
+        android:label="@string/playback"
+        tools:layout="@layout/fragment_playback" />
 </navigation>

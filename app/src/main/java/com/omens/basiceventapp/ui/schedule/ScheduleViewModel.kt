@@ -1,13 +1,8 @@
 package com.omens.basiceventapp.ui.schedule
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.omens.basiceventapp.model.RetrievedItem
 
 class ScheduleViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is schedule Fragment"
-    }
-    val text: LiveData<String> = _text
+    lateinit var retrievedItem: RetrievedItem
 }
