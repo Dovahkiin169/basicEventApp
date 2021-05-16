@@ -79,10 +79,6 @@ class RecyclerViewAdapter(
         notifyDataSetChanged()
     }
 
-    fun returnList():MutableList<RetrievedItem> {
-        return values.toMutableList()
-    }
-
 
     object DateUtil {
         private fun dayCheck(date: Date, days: Int): Date {

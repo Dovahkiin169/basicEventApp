@@ -81,7 +81,4 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         }
     }
 
-    fun setProgressBarVisibility(visibility: Int){
-        progressBar.visibility = visibility
-    }
 }

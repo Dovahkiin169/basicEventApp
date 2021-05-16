@@ -4,9 +4,7 @@ import android.graphics.Color
 import android.media.session.PlaybackState
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -53,7 +51,6 @@ class PlaybackFragment : Fragment() {
         view.setBackgroundColor(Color.parseColor("#000000"))
         val defaultLoadControl = DefaultLoadControl.Builder()
             .setPrioritizeTimeOverSizeThresholds(false).build()
-
         simpleExoPlayer = SimpleExoPlayer.Builder(requireContext())
             .setLoadControl(defaultLoadControl)
             .build()

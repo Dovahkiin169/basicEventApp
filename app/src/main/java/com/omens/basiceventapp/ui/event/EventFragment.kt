@@ -1,23 +1,23 @@
 package com.omens.basiceventapp.ui.event
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.omens.basiceventapp.MainActivity
 import com.omens.basiceventapp.R
-import com.omens.basiceventapp.utils.RecyclerViewAdapter
-import com.omens.basiceventapp.utils.OnFragmentInteractionListener
 import com.omens.basiceventapp.databinding.FragmentEventsBinding
+import com.omens.basiceventapp.utils.OnFragmentInteractionListener
+import com.omens.basiceventapp.utils.RecyclerViewAdapter
 import com.omens.basiceventapp.utils.loadData
-import com.omens.basiceventapp.utils.showProgressBar
 import java.util.*
 
 class EventFragment : Fragment() {
@@ -39,7 +39,6 @@ class EventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         eventViewModel = ViewModelProvider(this).get(EventViewModel::class.java)
-
         _binding = FragmentEventsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
